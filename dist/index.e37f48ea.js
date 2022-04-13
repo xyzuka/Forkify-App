@@ -515,7 +515,8 @@ function hmrAcceptRun(bundle, id) {
 
 },{}],"aenu9":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-var _webImmediateJs = require("core-js/modules/web.immediate.js");
+var _webImmediateJs = require("core-js/modules/web.immediate.js"); // window.addEventListener('hashchange', showRecipe);
+ // window.addEventListener('load', showRecipe);
 var _iconsSvg = require("url:../img/icons.svg");
 var _iconsSvgDefault = parcelHelpers.interopDefault(_iconsSvg);
 var _runtime = require("regenerator-runtime/runtime");
@@ -542,8 +543,12 @@ const renderSpinner = function(parentEl) {
 renderSpinner(recipeContainer);
 const showRecipe = async function() {
     try {
+        const id = window.location.hash.slice(1);
+        // console.log(id);
+        if (!id) return;
+        renderSpinner(recipeContainer);
         //1. Loading Recipe
-        const response = await fetch('https://forkify-api.herokuapp.com/api/v2/recipes/5ed6604591c37cdc054bc886');
+        const response = await fetch(`https://forkify-api.herokuapp.com/api/v2/recipes/${id}`);
         const data = await response.json();
         if (!response.ok) throw new Error(`${data.message} (${response.status})`);
         let { recipe  } = data.data;
@@ -557,7 +562,7 @@ const showRecipe = async function() {
             cookingTime: recipe.cooking_time,
             ingredients: recipe.ingredients
         };
-        console.log(recipe);
+        // console.log(recipe);
         // 2. Rendering Recipe
         const markup = `
      <figure class="recipe__fig">
@@ -655,6 +660,11 @@ const showRecipe = async function() {
     }
 };
 showRecipe();
+[
+    'hashchange',
+    'load'
+].forEach((e)=>window.addEventListener(e, showRecipe)
+);
 
 },{"url:../img/icons.svg":"loVOp","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","core-js/modules/web.immediate.js":"49tUX","regenerator-runtime/runtime":"dXNgZ"}],"loVOp":[function(require,module,exports) {
 module.exports = require('./helpers/bundle-url').getBundleURL('hWUTQ') + "icons.dfd7a6db.svg" + "?" + Date.now();

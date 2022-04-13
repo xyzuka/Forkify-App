@@ -60,3 +60,14 @@ STEPS:
   - Adding polyfills to codebase (for async await and everything else)
     - run npm i core-js regenerator-runtime
     - import on the top of the file
+
+4. USER SELECTS RECIPE IN SEARCH BAR
+   (LISTENING FOR LOAD AND HASH CHANGE EVENTS)
+
+- Adding a artificial link in the html to listen for the # key which determines the recipe
+- Add an event listener for the hashchange and run the showRecipe function to render the recipe
+- Refactoring the showRecipe function to update the ID of the selected recipe
+- Listening for the entire page loading (to allow users to copy and paste the link on a new tab or window) - adding an event listener with load
+- Refactoring the duplicate event listeners to run the two listeners at once
+  - Having an array containing the two events and then looping the array to run the event listeners on each of them
+- Adding a guard clause to return the function if there is no ID present
