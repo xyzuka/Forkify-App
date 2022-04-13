@@ -40,3 +40,23 @@ STEPS:
 - Convert the ajax response to json and parse the data
 - Error handling (if ok is set to false from a incorrect link request) -> throw a new error containing the message property stored in the response and also the status code
 - Formatting the data from the data variable: Create an object which contains the data object from the data variable with better variable names (using destructuring)
+
+3. RENDERING API SEARCH RESULTS
+
+- Copying the hidden html recipes container content to be assigned to a variable containing the html to then insert the html
+- Replacing the strings in the html content with template literals referring to the properties from the recipe object created before
+- Insert the html into the DOM (on the parent element) with insertAdjacentHTML
+- Remove the previous markup before adding a new mark up
+- Loop through the ingredients array in the recipe object to create the ingredients recipe mark up (map will be used since we need to return a new string into html markup)
+  - Transfer the array of strings into a big string with the join method
+- Rendering icons
+  - Since the displaying application is coming from the dist folder, our html is referencing the wrong img src
+  - We will use parcel to link these modules together
+    - At the top of our controller.js file, we will input import 'nameOfImport' from 'srcFileOfImport
+    - We will then replace the icon image source path with a template literal of the new icon location
+    - Adding a loading spinner when the recipe is loading
+      - Add the hidden spinner code in the html
+      - Create a external function to render the spinner when the recipe data is being retrieved
+  - Adding polyfills to codebase (for async await and everything else)
+    - run npm i core-js regenerator-runtime
+    - import on the top of the file
