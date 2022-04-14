@@ -92,3 +92,14 @@ STEPS:
     - npm install fractional
     - Applying the fractional script to the html markup
     - Adding a conditional to check if there is a quantity
+
+6. HELPERS AND CONFIGURATION FILES
+
+- Create a new file in the js file called config.js
+- Variables that are constants and will be reused throughout the project will be placed in here
+- Moved all the constants which will be reused to the config.js file
+- Create a new file for some helper functions
+  - Creating a function which will get JSON (from model.js, we will move the async await items to this helper function)
+  - Moving the error from helpers.js into the model.js file -> done by throwing the error
+  - Adding a timeout for the fetch function to account for slow internet connections (so that the function does not keep running in the background)
+  - Adding the timeout seconds in the configuration file
