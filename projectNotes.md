@@ -71,3 +71,20 @@ STEPS:
 - Refactoring the duplicate event listeners to run the two listeners at once
   - Having an array containing the two events and then looping the array to run the event listeners on each of them
 - Adding a guard clause to return the function if there is no ID present
+
+5. REFACTORING CODE BASED ON THE MODEL VIEW CONTROLLER ARCHITECTURE
+
+- Creating new files in the src folder which contains the modules for the model, controller, and recipeView
+- Module.js:
+  - Model.js -> Creating the state object to be exported
+  - Model.js -> Creating a new async function, loadRecipe, which will gather recipe data and store it in the {recipe} destructured object
+  - Controller.js -> Importing everything from model.js so the modules can exchange information
+  - Controller.js -> Calling the loadRecipe function from the model.js to pass in the id (also awaiting the promise, since loadRecipe is a async function)
+  - Controller.js -> Added a variable: const { recipe } = model.state; So the markup html can refer to the recipe object inside the module model.js
+  - recipeView.js -> Setting up the class, RecipeView: to have private properties ie. #parentElement to render the spinner and the recipe itself
+  - Controller.js -> Calling recipeView.render(model.state.recipe)
+    - recipeView.js -> Creating the public render method inside the class
+  - Controller.js -> Cutting all the markup html code and pasting it into the RecipeView class as a private method, #generateMarkup()
+  - recipeView.js -> Creating a method to clear the parent container for abstraction
+  - Controller.js -> Renaming the function showRecipes based off the architecture plan
+  - recipeView.js -> Exporting the spinner function here
