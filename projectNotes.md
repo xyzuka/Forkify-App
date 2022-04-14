@@ -75,7 +75,7 @@ STEPS:
 5. REFACTORING CODE BASED ON THE MODEL VIEW CONTROLLER ARCHITECTURE
 
 - Creating new files in the src folder which contains the modules for the model, controller, and recipeView
-- Module.js:
+- Refactoring steps:
   - Model.js -> Creating the state object to be exported
   - Model.js -> Creating a new async function, loadRecipe, which will gather recipe data and store it in the {recipe} destructured object
   - Controller.js -> Importing everything from model.js so the modules can exchange information
@@ -88,3 +88,7 @@ STEPS:
   - recipeView.js -> Creating a method to clear the parent container for abstraction
   - Controller.js -> Renaming the function showRecipes based off the architecture plan
   - recipeView.js -> Exporting the spinner function here
+  - Using an external library to update the ingredients quantity formatting
+    - npm install fractional
+    - Applying the fractional script to the html markup
+    - Adding a conditional to check if there is a quantity
