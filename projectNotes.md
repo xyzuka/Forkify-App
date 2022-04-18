@@ -103,3 +103,10 @@ STEPS:
   - Moving the error from helpers.js into the model.js file -> done by throwing the error
   - Adding a timeout for the fetch function to account for slow internet connections (so that the function does not keep running in the background)
   - Adding the timeout seconds in the configuration file
+
+7. EVENT HANDLERS IN MVC: PUBLISHER SUBSCRIBER PATTERN
+
+- Refactoring: We need to move the hash change event listener in the controller.js file to recipeView.js
+  - Event listeners will be in the recipeView file (which will be stored in a method, addEventHandler)
+  - Controller functions which handle the event listener will be in the controller.js file
+  - Creating an init function in the controller.js file to call the addEventHandler method

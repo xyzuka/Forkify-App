@@ -28,6 +28,11 @@ class RecipeView {
     this.#parentElement.insertAdjacentHTML('beforeend', markup);
   };
 
+  // Publisher Subscriber Pattern: The publisher function needs access to a subscriber (which is the handler function in this case)
+  addHandlerRender(handler) {
+    ['hashchange', 'load'].forEach((e) => window.addEventListener(e, handler));
+  }
+
   #generateMarkup() {
     return `
      <figure class="recipe__fig">
