@@ -1,5 +1,7 @@
 PROJECT OVERVIEW AND PLANNING
 
+This program will be using the Forkify API created by Jonas: https://forkify-api.herokuapp.com/v2
+
 USER STORIES: As a user, I want to...
 
 1. search for recipes, so that I can find new ideas for my meals
@@ -116,3 +118,15 @@ STEPS:
 - Example: Invalid URL being unable to display the recipe
   - Instead of handling the error with a console.error or alert(err); we will display the error message in the UI
   - Moving the error handling to recipeView.js
+
+9. IMPLEMENTING SEARCH FUNCTIONALITY
+
+- Module.js -> creating an async function which will be exported to controller.js to make API calls to search for the recipe
+  - Based off the Forkify API, we will be making a get RESULT on the path: https://forkify-api.herokuapp.com/api/v2/recipes, with the search parameter
+  - We will use the getJSON method to fetch and convert the data to be stored in a new array
+- We will then take the data in the object and store it in our state object
+- Module.js -> Calling the function loadSearchResults in the controller
+- Creating a separate view file for the search input tab and button
+  - Creating a query to listen for the contents in the search input
+  - Creating an event listener for the search button
+  - Clearing search bar when form is submitted
