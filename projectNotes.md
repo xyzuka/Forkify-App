@@ -119,7 +119,7 @@ STEPS:
   - Instead of handling the error with a console.error or alert(err); we will display the error message in the UI
   - Moving the error handling to recipeView.js
 
-9. IMPLEMENTING SEARCH FUNCTIONALITY
+9. IMPLEMENTING SEARCH FUNCTIONALITY - API Calling
 
 - Module.js -> creating an async function which will be exported to controller.js to make API calls to search for the recipe
   - Based off the Forkify API, we will be making a get RESULT on the path: https://forkify-api.herokuapp.com/api/v2/recipes, with the search parameter
@@ -130,3 +130,13 @@ STEPS:
   - Creating a query to listen for the contents in the search input
   - Creating an event listener for the search button
   - Clearing search bar when form is submitted
+
+10. RENDERING SEARCH RESULTS - Rendering search results
+
+- Creating a new view file to render the search results
+  - Since the class in the recipeView will be similar to the results view, we will refactor the code to be a parent class (in order to reuse all the methods)
+  - Creating a new view file, View.js
+  - Transferring the content which is shared among the rendering view files into the parent class in View.js
+  - Controller.js -> Running the function to render the spinner
+- Creating the generate mark up method to display the search results in resultsView.js
+- Creating an error message when the user searches for a recipe that does not exist
