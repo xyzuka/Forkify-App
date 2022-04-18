@@ -532,7 +532,7 @@ const controlRecipes = async function() {
         // 2. Rendering Recipe
         _recipeViewJsDefault.default.render(_modelJs.state.recipe);
     } catch (err) {
-        alert(err);
+        _recipeViewJsDefault.default.renderError();
     }
 };
 controlRecipes();
@@ -1610,6 +1610,7 @@ const loadRecipe = async function(id) {
     // console.log(state.recipe);
     } catch (err) {
         console.error(`${err} 💥`);
+        throw err;
     }
 };
 
@@ -2257,6 +2258,8 @@ var _fractional = require("fractional");
 class RecipeView {
     #parentElement = document.querySelector('.recipe');
     #data;
+    #errorMessage = 'We could not find that recipe. Please try another one!';
+    #message = '';
     render(data) {
         this.#data = data;
         const markup = this.#generateMarkup();
@@ -2266,7 +2269,7 @@ class RecipeView {
      #clear() {
         this.#parentElement.innerHTML = '';
     }
-    renderSpinner = function() {
+    renderSpinner() {
         const markup = `
     <div class="spinner">
           <svg>
@@ -2274,9 +2277,37 @@ class RecipeView {
           </svg>
     </div>
     `;
-        this.#parentElement.innerHTML = '';
+        this.#clear();
         this.#parentElement.insertAdjacentHTML('beforeend', markup);
-    };
+    }
+    renderError(message = this.#errorMessage) {
+        const markup = `
+      <div class="error">
+        <div>
+          <svg>
+            <use href="${_iconsSvgDefault.default}#icon-alert-triangle"></use>
+          </svg>
+        </div>
+        <p>${message}</p>
+      </div>
+      `;
+        this.#clear();
+        this.#parentElement.insertAdjacentHTML('beforeend', markup);
+    }
+    renderMessage(message = this.#message) {
+        const markup = `
+      <div class="message">
+        <div>
+          <svg>
+            <use href="${_iconsSvgDefault.default}#icon-smile"></use>
+          </svg>
+        </div>
+        <p>${message}</p>
+      </div>
+      `;
+        this.#clear();
+        this.#parentElement.insertAdjacentHTML('beforeend', markup);
+    }
     // Publisher Subscriber Pattern: The publisher function needs access to a subscriber (which is the handler function in this case)
     addHandlerRender(handler) {
         [

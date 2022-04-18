@@ -110,3 +110,9 @@ STEPS:
   - Event listeners will be in the recipeView file (which will be stored in a method, addEventHandler)
   - Controller functions which handle the event listener will be in the controller.js file
   - Creating an init function in the controller.js file to call the addEventHandler method
+
+8. IMPLEMENTING ERROR AND SUCCESS MESSAGES
+
+- Example: Invalid URL being unable to display the recipe
+  - Instead of handling the error with a console.error or alert(err); we will display the error message in the UI
+  - Moving the error handling to recipeView.js
