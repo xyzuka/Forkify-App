@@ -140,3 +140,10 @@ STEPS:
   - Controller.js -> Running the function to render the spinner
 - Creating the generate mark up method to display the search results in resultsView.js
 - Creating an error message when the user searches for a recipe that does not exist
+
+11. PAGINATION
+
+- Creating a function to render the first 10 recipes only from the search results, and once the user clicks page 1, it will render recipes 10-20
+- Updating the state of the page
+- controller.js -> updating the rendering function with the function created
+- Storing the page number that is coming in to the state
