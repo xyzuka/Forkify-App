@@ -147,3 +147,13 @@ STEPS:
 - Updating the state of the page
 - controller.js -> updating the rendering function with the function created
 - Storing the page number that is coming in to the state
+
+12. IMPLEMENTING PAGINATION BUTTONS
+
+- Creating a new view file for pagination
+- Creating a object with a method to display the buttons based off different scenarios
+- Running the pagination method/function in the controlSearchResults function since the event happens when the user searches for a recipe
+- Adding the logic to determine which page the user is on
+- Creating the mark up based off the logic
+- Adding event listeners on pagination buttons
+- Creating a data attribute on each page to determine which page is to be displayed when the button is clicked
