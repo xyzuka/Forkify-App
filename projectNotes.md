@@ -157,3 +157,10 @@ STEPS:
 - Creating the mark up based off the logic
 - Adding event listeners on pagination buttons
 - Creating a data attribute on each page to determine which page is to be displayed when the button is clicked
+
+13. UPDATING RECIPE SERVINGS
+
+- Controller.js -> Adding a function in controller.js -> will increase the servings when the user clicks the +/- icons (calls a function in model.js to change the state)
+- Model.js -> Function will be called to update the ingredients quantity in the state
+- Controller.js -> Updating the recipe view by calling the render method from View.js
+- Creating the event listeners to listen for the user click
