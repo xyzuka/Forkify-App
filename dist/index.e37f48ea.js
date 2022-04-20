@@ -535,6 +535,8 @@ const controlRecipes = async function() {
         // console.log(id);
         if (!id) return;
         _recipeViewJsDefault.default.renderSpinner();
+        // 0. Update results view to mark selected search result
+        _resultsViewJsDefault.default.update(_modelJs.getSearchResultsPage());
         // 1. Loading recipe
         await _modelJs.loadRecipe(id);
         // 2. Rendering Recipe
@@ -560,7 +562,6 @@ const controlSearchResults = async function() {
         console.log(err);
     }
 };
-controlSearchResults();
 const controlPagination = function(goToPage) {
     // Render new results
     _resultsViewJsDefault.default.render(_modelJs.getSearchResultsPage(goToPage));
@@ -571,7 +572,8 @@ const controlServings = function(newServings) {
     // Update the recipe servings (in the state)
     _modelJs.updateServings(newServings);
     // Render the new servings (in the view)
-    _recipeViewJsDefault.default.render(_modelJs.state.recipe);
+    // recipeView.render(model.state.recipe);
+    _recipeViewJsDefault.default.update(_modelJs.state.recipe);
 };
 const init = function() {
     _recipeViewJsDefault.default.addHandlerRender(controlRecipes);
@@ -2473,7 +2475,23 @@ class View {
         this._clear();
         this._parentElement.insertAdjacentHTML('afterbegin', markup);
     }
-    d;
+    update(data) {
+        this._data = data;
+        const newMarkup = this._generateMarkup();
+        // Creating a new DOM stored in memory
+        const newDOM = document.createRange().createContextualFragment(newMarkup);
+        const newElements = Array.from(newDOM.querySelectorAll('*'));
+        const curElements = Array.from(this._parentElement.querySelectorAll('*'));
+        newElements.forEach((newEl, i)=>{
+            const curEl = curElements[i];
+            // Updates changed text
+            if (!newEl.isEqualNode(curEl) && newEl.firstChild?.nodeValue.trim() !== '') curEl.textContent = newEl.textContent;
+            // Updates changed data attributes
+            if (!newEl.isEqualNode(curEl)) Array.from(newEl.attributes).forEach((attr)=>// Replacing the attributes in the curEl with the newEl attributes
+                curEl.setAttribute(attr.name, attr.value)
+            );
+        });
+    }
     _clear() {
         this._parentElement.innerHTML = '';
     }
@@ -2848,8 +2866,9 @@ class ResultsView extends _viewJsDefault.default {
         return this._data.map(this._generateMarkupPreview).join('');
     }
     _generateMarkupPreview(result) {
+        const id = window.location.hash.slice(1);
         return `<li class="preview">
-                  <a class="preview__link" href="#${result.id}">
+                  <a class="preview__link ${result.id === id ? 'preview__link--active' : ''}" href="#${result.id}">
                   <figure class="preview__fig">
                     <img src="${result.image}" alt="${result.title}" />
                   </figure>

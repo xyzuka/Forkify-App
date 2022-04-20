@@ -164,3 +164,19 @@ STEPS:
 - Model.js -> Function will be called to update the ingredients quantity in the state
 - Controller.js -> Updating the recipe view by calling the render method from View.js
 - Creating the event listeners to listen for the user click
+
+14. DOM UPDATING ALGORITHM
+
+- When the user updates the recipe servings, the image of the recipe would "flash" -> we will implement a algorithm with updates only specific parts of the DOM ie. the recipe details and not the recipe image
+- Creating a new function called update to be called from controlServings to only update the text and attributes in the DOM
+
+  - This function will create a clone copy of the current DOM and compare the differences between the current elements and new elements
+  - Note:
+    - isEqualNode() method will compare the contents within a node
+    - nodeValue() method will returns or sets the value of the current node
+    - setAttribute() method will set the value of an attribute on the specified element. If the attribute already exists, the value is updated; otherwise a new attribute is added with the specified name and value
+
+- Using the function/algorithm to highlight the selected recipe from the search results
+  - resultsView -> we will give a special class to highlight the selected recipe in the markup
+    - We will add the class when the current ID in the url is the same as the selected ID, if it is not the same - it will remain blank
+      - ${result.id === id ? 'preview\_\_link--active' : ''}
