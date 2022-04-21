@@ -192,3 +192,10 @@ STEPS:
 - Clicking on the button again will un-bookmark the recipe
   - Model.js -> Creating a function deleteBookmark
   - Controller.js -> Using the created function deleteBookmark in a if else statement
+
+16. SAVING BOOKMARKS IN BOOKMARKS TAB
+
+- Creating a new view file, bookmarksView.js to create a new markup whenever the user bookmarks a recipe
+- Updating the bookmark tab to highlight the recipe selected
+- Since resultsView.js and bookmarksView.js are similar, we will create a another class element called previewView.js
+  - previewView.js will be used as a child view for bookmarksView.js and resultsView.js
