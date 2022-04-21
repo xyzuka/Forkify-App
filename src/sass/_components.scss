@@ -189,6 +189,11 @@
   }
 }
 
+.smile-container {
+  display: flex;
+  align-items: center;
+}
+
 .message,
 .error {
   max-width: 40rem;

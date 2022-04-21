@@ -180,3 +180,15 @@ STEPS:
   - resultsView -> we will give a special class to highlight the selected recipe in the markup
     - We will add the class when the current ID in the url is the same as the selected ID, if it is not the same - it will remain blank
       - ${result.id === id ? 'preview\_\_link--active' : ''}
+
+15. IMPLEMENTING BOOKMARKS
+
+- Model.js -> adding a new exported function which will set a recipe as bookmarked
+  - Adding a bookmark will push the recipe into the bookmark array inside the state object
+- Controller.js -> Adding a controller to call the addBookMark function created
+- recipeView.js -> Adding the event listener on the bookmark button
+- Adding logic to check if bookmark is true, then render the icon (if not, do nothing)
+- Model.js -> Adding logic in loadRecipe() to store clicked bookmarks in the state
+- Clicking on the button again will un-bookmark the recipe
+  - Model.js -> Creating a function deleteBookmark
+  - Controller.js -> Using the created function deleteBookmark in a if else statement

@@ -229,6 +229,11 @@ body {
   }
 }
 
+.smile-container {
+  align-items: center;
+  display: flex;
+}
+
 .message, .error {
   max-width: 40rem;
   margin: 0 auto;
