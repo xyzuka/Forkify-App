@@ -8,8 +8,6 @@ class ResultsView extends View {
   _message = '';
 
   _generateMarkup() {
-    console.log(this._data);
-
     // Since the data is in a array we can loop through it to display each of the mark up html
     return this._data
       .map((result) => previewView.render(result, false))

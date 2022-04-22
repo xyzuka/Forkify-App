@@ -195,7 +195,13 @@ STEPS:
 
 16. SAVING BOOKMARKS IN BOOKMARKS TAB
 
-- Creating a new view file, bookmarksView.js to create a new markup whenever the user bookmarks a recipe
 - Updating the bookmark tab to highlight the recipe selected
+- Creating a new view file, bookmarksView.js to create a new markup whenever the user bookmarks a recipe
 - Since resultsView.js and bookmarksView.js are similar, we will create a another class element called previewView.js
   - previewView.js will be used as a child view for bookmarksView.js and resultsView.js
+
+17. BOOKMARKS LOCAL STORAGE
+
+- Model.js -> Creating a function which will save bookmarks into local storage
+- Calling the function in the addBookmark and deleteBookmark functions to update storage
+- Writing code to take bookmarks out of local storage and render bookmarks
