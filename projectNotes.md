@@ -205,3 +205,21 @@ STEPS:
 - Model.js -> Creating a function which will save bookmarks into local storage
 - Calling the function in the addBookmark and deleteBookmark functions to update storage
 - Writing code to take bookmarks out of local storage and render bookmarks
+
+18. FEATURE: USER UPLOADING OWN RECIPE
+
+- Creating addRecipeView.js to contain the view for creating a recipe window
+- Adding an event listener to listen for clicking the add recipe button and also closing it
+- Adding a handler to listen for the upload form button
+  - To gather the data submitted by the user:
+    - Using FormData() with a modern browser API to convert the data from FormData()
+    - FormData() will return the data in a FormData{} format so it will be better to store it in a spread array ie.
+    - The data will then be sent to the API as an API call
+      - We will send the data to model.js - therefore we will create a controller function to handle this event
+- SENDING RECIPE DATA TO FORKIFY API
+  - Model.js -> Creating a new exported function to make a request to the API (async function)
+    - Model.js -> Takes raw input data and transforms it to the data we get out of the API
+    - Adding a error handler for when the user uses the wrong recipe formatting when entering in data
+  - Helper.js -> Creating a method to send the JSON to the API
+  - Model.js -> Updating the state with the newly added recipe and updating the bookmarks
+  - Rendering a loading spinner
