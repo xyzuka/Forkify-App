@@ -223,3 +223,14 @@ STEPS:
   - Helper.js -> Creating a method to send the JSON to the API
   - Model.js -> Updating the state with the newly added recipe and updating the bookmarks
   - Rendering a loading spinner
+
+19. RENDERING ADDED RECIPES
+
+- Bugs:
+  - URL did not update to the added recipe
+    - Update the URL to display the added recipe
+  - Bookmarks panel will only update upon refresh
+    - Re-render the bookmarks panel
+  - After uploading a new recipe, upon clicking the add recipe button, it will prompt the previous success message of adding a new recipe
+- Refactoring the JSON helpers
+- Model.js -> Displaying created recipes in search results by adding the API key to the URL in the AJAX call

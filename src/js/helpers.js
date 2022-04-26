@@ -9,9 +9,19 @@ const timeout = function (s) {
   });
 };
 
-export const getJSON = async function (url) {
+export const AJAX = async function (url, uploadData = undefined) {
   try {
-    const fetchPro = fetch(url);
+    const fetchPro = uploadData
+      ? fetch(url, {
+          method: 'POST',
+          // Specifying to the API that the content will be in the JSON format
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(uploadData),
+        })
+      : fetch(url);
+
     const response = await Promise.race([fetchPro, timeout(TIMEOUT_SEC)]);
     const data = await response.json();
 
@@ -19,26 +29,6 @@ export const getJSON = async function (url) {
     return data;
   } catch (err) {
     // Throwing the error so that the promise that's being returned from getJSON will actually reject - then we can handle the error in the model.js file
-    throw err;
-  }
-};
-
-export const sendJSON = async function (url, uploadData) {
-  try {
-    const fetchPro = fetch(url, {
-      method: 'POST',
-      // Specifying to the API that the content will be in the JSON format
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(uploadData),
-    });
-    const response = await Promise.race([fetchPro, timeout(TIMEOUT_SEC)]);
-    const data = await response.json();
-
-    if (!response.ok) throw new Error(`${data.message} (${response.status})`);
-    return data;
-  } catch (err) {
     throw err;
   }
 };

@@ -605,9 +605,13 @@ const controlAddRecipe = async function(newRecipe) {
         _recipeViewJsDefault.default.render(_modelJs.state.recipe);
         // Success message
         _addRecipeViewJsDefault.default.renderMessage();
+        // Render bookmarked view
+        _bookmarksViewDefault.default.render(_modelJs.state.bookmarks);
+        // Change ID in URL
+        window.history.pushState(null, '', `#${_modelJs.state.recipe.id}`);
         // Close form window
         setTimeout(function() {
-        // addRecipeView.toggleWindow();
+            _addRecipeViewJsDefault.default.toggleWindow();
         }, _configJs.MODAL_CLOSE_SEC * 1000);
     } catch (err) {
         console.error('🥲', err);
@@ -1717,7 +1721,7 @@ const createRecipeObject = function(data) {
 };
 const loadRecipe = async function(id) {
     try {
-        const data = await _helpersJs.getJSON(`${_configJs.API_URL}${id}`);
+        const data = await _helpersJs.AJAX(`${_configJs.API_URL}${id}?key=${_configJs.KEY}`);
         state.recipe = createRecipeObject(data);
         console.log(state.recipe);
         if (state.bookmarks.some((bookmark)=>bookmark.id === id
@@ -1732,14 +1736,17 @@ const loadRecipe = async function(id) {
 const loadSearchResults = async function(query) {
     try {
         state.search.query = query;
-        const data = await _helpersJs.getJSON(`${_configJs.API_URL}?search=${query}`);
+        const data = await _helpersJs.AJAX(`${_configJs.API_URL}?search=${query}&key=${_configJs.KEY}`);
         console.log(data);
         state.search.results = data.data.recipes.map((recipe)=>{
             return {
                 id: recipe.id,
                 title: recipe.title,
                 publisher: recipe.publisher,
-                image: recipe.image_url
+                image: recipe.image_url,
+                ...recipe.key && {
+                    key: recipe.key
+                }
             };
         });
         // resets page to 1 when searching for new recipe
@@ -1794,7 +1801,8 @@ const uploadRecipe = async function(newRecipe) {
         // Receiving data and converting it from the user submitted form
         const ingredients = Object.entries(newRecipe).filter((entry)=>entry[0].startsWith('ingredient') && entry[1] !== ''
         ).map((ing)=>{
-            const ingArr = ing[1].replaceAll(' ', '').split(',');
+            const ingArr = ing[1].split(',').map((el)=>el.trim()
+            );
             if (ingArr.length !== 3) throw new Error(errMessage);
             const [quantity, unit, description] = ingArr;
             return {
@@ -1814,7 +1822,7 @@ const uploadRecipe = async function(newRecipe) {
             ingredients
         };
         // Creating AJAX request
-        const data = await _helpersJs.sendJSON(`${_configJs.API_URL}?key=${_configJs.KEY}`, recipe);
+        const data = await _helpersJs.AJAX(`${_configJs.API_URL}?key=${_configJs.KEY}`, recipe);
         state.recipe = createRecipeObject(data);
         addBookmark(state.recipe);
     } catch (err) {
@@ -2440,9 +2448,7 @@ exports.export = function(dest, destName, get) {
 },{}],"hGI1E":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "getJSON", ()=>getJSON
-);
-parcelHelpers.export(exports, "sendJSON", ()=>sendJSON
+parcelHelpers.export(exports, "AJAX", ()=>AJAX
 );
 var _regeneratorRuntime = require("regenerator-runtime");
 var _config = require("./config");
@@ -2453,9 +2459,16 @@ const timeout = function(s) {
         }, s * 1000);
     });
 };
-const getJSON = async function(url) {
+const AJAX = async function(url, uploadData) {
     try {
-        const fetchPro = fetch(url);
+        const fetchPro = uploadData ? fetch(url, {
+            method: 'POST',
+            // Specifying to the API that the content will be in the JSON format
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(uploadData)
+        }) : fetch(url);
         const response = await Promise.race([
             fetchPro,
             timeout(_config.TIMEOUT_SEC)
@@ -2465,27 +2478,6 @@ const getJSON = async function(url) {
         return data;
     } catch (err) {
         // Throwing the error so that the promise that's being returned from getJSON will actually reject - then we can handle the error in the model.js file
-        throw err;
-    }
-};
-const sendJSON = async function(url, uploadData) {
-    try {
-        const fetchPro = fetch(url, {
-            method: 'POST',
-            // Specifying to the API that the content will be in the JSON format
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(uploadData)
-        });
-        const response = await Promise.race([
-            fetchPro,
-            timeout(_config.TIMEOUT_SEC)
-        ]);
-        const data = await response.json();
-        if (!response.ok) throw new Error(`${data.message} (${response.status})`);
-        return data;
-    } catch (err) {
         throw err;
     }
 };
@@ -2725,7 +2717,10 @@ class RecipeView extends _viewJsDefault.default {
             </div>
           </div>
 
-          <div class="recipe__user-generated">
+          <div class="preview__user-generated ${this._data.key ? '' : 'hidden'}">
+            <svg>
+              <use href="${_iconsSvgDefault.default}#icon-user"></use>
+            </svg>
           </div>
             <button class="btn--round btn--bookmark">
               <svg class="">
@@ -3095,6 +3090,11 @@ class PreviewView extends _viewJsDefault.default {
                   <div class="preview__data">
                     <h4 class="preview__title">${this._data.title}</h4>
                     <p class="preview__publisher">${this._data.publisher}</p>
+                      <div class="preview__user-generated ${this._data.key ? '' : 'hidden'}">
+                        <svg>
+                        <use href="${_iconsSvgDefault.default}#icon-user"></use>
+                        </svg>
+                      </div>
                   </div>
                 </a>
               </li>
