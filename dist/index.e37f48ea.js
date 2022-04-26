@@ -531,13 +531,9 @@ var _bookmarksViewDefault = parcelHelpers.interopDefault(_bookmarksView);
 var _addRecipeViewJs = require("./views/addRecipeView.js");
 var _addRecipeViewJsDefault = parcelHelpers.interopDefault(_addRecipeViewJs);
 var _runtime = require("regenerator-runtime/runtime");
-// if (module.hot) {
-//   module.hot.accept();
-// }
 const controlRecipes = async function() {
     try {
         const id = window.location.hash.slice(1);
-        // console.log(id);
         if (!id) return;
         _recipeViewJsDefault.default.renderSpinner();
         // 1. Update results view to mark selected search result
@@ -600,7 +596,6 @@ const controlAddRecipe = async function(newRecipe) {
         _addRecipeViewJsDefault.default.renderSpinner();
         // Upload the new recipe data
         await _modelJs.uploadRecipe(newRecipe);
-        console.log(_modelJs.state.recipe);
         // Render recipe
         _recipeViewJsDefault.default.render(_modelJs.state.recipe);
         // Success message
@@ -1723,11 +1718,9 @@ const loadRecipe = async function(id) {
     try {
         const data = await _helpersJs.AJAX(`${_configJs.API_URL}${id}?key=${_configJs.KEY}`);
         state.recipe = createRecipeObject(data);
-        console.log(state.recipe);
         if (state.bookmarks.some((bookmark)=>bookmark.id === id
         )) state.recipe.bookmarked = true;
         else state.recipe.bookmarked = false;
-    // console.log(state.recipe);
     } catch (err) {
         console.error(`${err} 💥`);
         throw err;
@@ -1737,7 +1730,6 @@ const loadSearchResults = async function(query) {
     try {
         state.search.query = query;
         const data = await _helpersJs.AJAX(`${_configJs.API_URL}?search=${query}&key=${_configJs.KEY}`);
-        console.log(data);
         state.search.results = data.data.recipes.map((recipe)=>{
             return {
                 id: recipe.id,
